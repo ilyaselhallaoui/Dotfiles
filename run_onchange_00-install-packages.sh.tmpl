@@ -1,0 +1,43 @@
+{{ if eq .chezmoi.os "linux" -}}
+#!/bin/sh
+set -eu
+
+# apt packages: {{ .packages.linux.apt | join "," }}
+if command -v apt-get >/dev/null 2>&1 && command -v dpkg-query >/dev/null 2>&1; then
+  missing=""
+{{- range .packages.linux.apt }}
+  if ! dpkg-query -W -f='${Status}' {{ . | quote }} 2>/dev/null | grep -q "install ok installed"; then
+    missing="$missing {{ . }}"
+  fi
+{{- end }}
+  if [ -n "$missing" ]; then
+    sudo apt-get update
+    sudo apt-get install -y $missing
+  fi
+fi
+
+if command -v brew >/dev/null 2>&1; then
+  brew bundle --file=- --no-upgrade <<'BREWFILE'
+{{- range .packages.brew.taps }}
+tap {{ . | quote }}
+{{- end }}
+{{- range .packages.brew.brews }}
+brew {{ . | quote }}
+{{- end }}
+BREWFILE
+fi
+{{- else if eq .chezmoi.os "darwin" -}}
+#!/bin/sh
+set -eu
+
+if command -v brew >/dev/null 2>&1; then
+  brew bundle --file=- --no-upgrade <<'BREWFILE'
+{{- range .packages.brew.taps }}
+tap {{ . | quote }}
+{{- end }}
+{{- range .packages.brew.brews }}
+brew {{ . | quote }}
+{{- end }}
+BREWFILE
+fi
+{{- end }}

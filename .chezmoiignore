@@ -1,0 +1,6 @@
+.git/
+.github/
+.devcontainer/
+README.md
+setup.sh
+.pre-commit-config.yaml

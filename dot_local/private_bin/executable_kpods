@@ -1,0 +1,5 @@
+#!/bin/sh
+set -eu
+
+namespace="${1:-default}"
+kubectl get pods -n "$namespace" -o wide

@@ -1,0 +1,68 @@
+# Managed by chezmoi.
+
+export PATH="$HOME/.local/bin:$PATH"
+export EDITOR="${EDITOR:-nvim}"
+export VISUAL="${VISUAL:-$EDITOR}"
+export PAGER="${PAGER:-less}"
+
+if [ -d /home/linuxbrew/.linuxbrew ]; then
+  eval "$(/home/linuxbrew/.linuxbrew/bin/brew shellenv)"
+elif [ -d /opt/homebrew ]; then
+  eval "$(/opt/homebrew/bin/brew shellenv)"
+fi
+
+if command -v mise >/dev/null 2>&1; then
+  eval "$(mise activate bash)"
+fi
+
+export NVM_DIR="$HOME/.nvm"
+[ -s "$NVM_DIR/nvm.sh" ] && . "$NVM_DIR/nvm.sh"
+[ -s "$NVM_DIR/bash_completion" ] && . "$NVM_DIR/bash_completion"
+
+if [ -f /etc/bash_completion ]; then
+  . /etc/bash_completion
+fi
+
+alias ..='cd ..'
+alias ll='ls -alF'
+alias la='ls -A'
+alias l='ls -CF'
+
+alias n='nvim'
+alias tm='tmux'
+alias python='python3'
+
+alias ga='git add'
+alias gp='git push'
+alias gs='git status --short --branch'
+alias gst='git status'
+alias gm='git commit -m'
+
+alias k='kubectl'
+alias kgp='kubectl get pods'
+alias kgd='kubectl get deployment.apps'
+alias kctx='kubectx'
+alias kns='kubens'
+alias kc='kubectx'
+alias kn='kubens'
+
+{{- if and (eq .chezmoi.os "linux") (.chezmoi.kernel.osrelease | lower | contains "microsoft") }}
+alias studium='cd /mnt/c/Users/ilyas/Documents/Weltlich/studium'
+alias lab='cd /mnt/c/Users/ilyas/Documents/Weltlich/Tech/lab'
+alias tech='cd /mnt/c/Users/ilyas/Documents/Weltlich/Tech'
+alias devops='cd /mnt/c/Users/ilyas/Documents/Weltlich/DevOps'
+{{- end }}
+
+if command -v kubectl >/dev/null 2>&1; then
+  source <(kubectl completion bash)
+  complete -o default -F __start_kubectl k 2>/dev/null || true
+fi
+
+HISTSIZE=10000
+HISTFILESIZE=20000
+shopt -s histappend
+shopt -s checkwinsize
+
+if command -v starship >/dev/null 2>&1; then
+  eval "$(starship init bash)"
+fi

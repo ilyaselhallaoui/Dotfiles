@@ -1,0 +1,21 @@
+repos:
+  - repo: https://github.com/pre-commit/pre-commit-hooks
+    rev: v6.0.0
+    hooks:
+      - id: check-added-large-files
+      - id: check-merge-conflict
+      - id: check-yaml
+      - id: end-of-file-fixer
+      - id: trailing-whitespace
+  - repo: https://github.com/koalaman/shellcheck-precommit
+    rev: v0.11.0
+    hooks:
+      - id: shellcheck
+        files: ^(run_.*|setup\.sh|dot_local/private_bin/executable_.*|\.devcontainer/post-create\.sh)$
+  - repo: local
+    hooks:
+      - id: dotfiles-secret-check
+        name: prevent raw credentials in dotfiles
+        entry: dot_local/private_bin/executable_dotfiles-secret-check
+        language: script
+        pass_filenames: true

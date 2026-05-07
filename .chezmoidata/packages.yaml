@@ -1,0 +1,30 @@
+packages:
+  linux:
+    apt:
+      - bash-completion
+      - build-essential
+      - ca-certificates
+      - curl
+      - fd-find
+      - fzf
+      - git
+      - jq
+      - less
+      - ripgrep
+      - tmux
+      - unzip
+      - vim
+      - zsh
+  brew:
+    taps: []
+    brews:
+      - k9s
+      - kubectx
+      - mise
+      - starship
+      - yq
+  mise:
+    tools:
+      - node@lts
+      - python@latest
+      - go@latest

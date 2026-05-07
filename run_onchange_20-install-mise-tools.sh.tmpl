@@ -1,0 +1,11 @@
+{{ if or (eq .chezmoi.os "linux") (eq .chezmoi.os "darwin") -}}
+#!/bin/sh
+set -eu
+
+# mise tools: {{ .packages.mise.tools | join "," }}
+if command -v mise >/dev/null 2>&1; then
+{{- range .packages.mise.tools }}
+  mise use --global {{ . | quote }}
+{{- end }}
+fi
+{{- end }}

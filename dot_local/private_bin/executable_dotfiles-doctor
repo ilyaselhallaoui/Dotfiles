@@ -1,0 +1,7 @@
+#!/bin/sh
+set -eu
+
+printf 'chezmoi source: %s\n' "$(chezmoi source-path)"
+chezmoi doctor
+printf '\nmanaged files:\n'
+chezmoi managed | sed -n '1,120p'

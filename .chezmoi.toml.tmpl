@@ -1,0 +1,15 @@
+sourceDir = "{{ .chezmoi.sourceDir }}"
+destDir = "{{ .chezmoi.homeDir }}"
+
+[diff]
+    exclude = ["scripts"]
+
+[status]
+    exclude = ["scripts"]
+
+[git]
+    autoCommit = false
+    autoPush = false
+
+[scriptEnv]
+    DOTFILES_SOURCE = "{{ .chezmoi.sourceDir }}"
