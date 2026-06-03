@@ -1,5 +1,6 @@
 # Timeout for commands (milliseconds)
 command_timeout = 1000
+scan_timeout = 1000
 
 # Get editor completions based on the config schema
 "$schema" = 'https://starship.rs/config-schema.json'

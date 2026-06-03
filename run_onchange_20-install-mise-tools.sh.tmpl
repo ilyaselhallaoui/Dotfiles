@@ -2,6 +2,8 @@
 #!/bin/sh
 set -eu
 
+PATH="$HOME/.local/bin:$PATH"
+
 # mise tools: {{ .packages.mise.tools | join "," }}
 if command -v mise >/dev/null 2>&1; then
 {{- range .packages.mise.tools }}

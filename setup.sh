@@ -1,7 +1,7 @@
 #!/bin/sh
 set -eu
 
-repo="${1:-}"
+repo="${1:-git@github.com:ilyaselhallaoui/Dotfiles.git}"
 
 if ! command -v chezmoi >/dev/null 2>&1; then
   tmp="$(mktemp -d)"
@@ -10,8 +10,8 @@ if ! command -v chezmoi >/dev/null 2>&1; then
   PATH="$tmp:$PATH"
 fi
 
-if [ -n "$repo" ]; then
-  chezmoi init --apply "$repo"
+if chezmoi source-path >/dev/null 2>&1 && [ -d "$(chezmoi source-path)" ]; then
+  chezmoi apply
 else
-  chezmoi init --apply
+  chezmoi init --apply "$repo"
 fi

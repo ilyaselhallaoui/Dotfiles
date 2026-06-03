@@ -62,13 +62,6 @@ alias kns='kubens'
 alias kc='kubectx'
 alias kn='kubens'
 
-{{- if and (eq .chezmoi.os "linux") (.chezmoi.kernel.osrelease | lower | contains "microsoft") }}
-alias studium='cd /mnt/c/Users/ilyas/Documents/Weltlich/studium'
-alias lab='cd /mnt/c/Users/ilyas/Documents/Weltlich/Tech/lab'
-alias tech='cd /mnt/c/Users/ilyas/Documents/Weltlich/Tech'
-alias devops='cd /mnt/c/Users/ilyas/Documents/Weltlich/DevOps'
-{{- end }}
-
 if command -v kubectl >/dev/null 2>&1; then
   source <(kubectl completion zsh)
   compdef _kubectl kubectl 2>/dev/null || true

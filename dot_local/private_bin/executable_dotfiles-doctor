@@ -1,7 +1,91 @@
 #!/bin/sh
 set -eu
 
+status=0
+
+need() {
+  if command -v "$1" >/dev/null 2>&1; then
+    printf 'ok: %s\n' "$1"
+  else
+    printf 'missing: %s\n' "$1" >&2
+    status=1
+  fi
+}
+
+want() {
+  if command -v "$1" >/dev/null 2>&1; then
+    printf 'ok: %s\n' "$1"
+  else
+    printf 'optional missing: %s\n' "$1" >&2
+  fi
+}
+
+want_any() {
+  label="$1"
+  shift
+
+  for tool in "$@"; do
+    if command -v "$tool" >/dev/null 2>&1; then
+      printf 'ok: %s\n' "$label"
+      return 0
+    fi
+  done
+
+  printf 'optional missing: %s\n' "$label" >&2
+}
+
+show_link() {
+  name="$1"
+  path="$2"
+  target="${3:-}"
+
+  if [ -L "$path" ]; then
+    actual="$(readlink "$path")"
+    if [ -n "$target" ] && [ "$actual" != "$target" ]; then
+      printf 'drift: %s -> %s, expected %s\n' "$name" "$actual" "$target" >&2
+      status=1
+    else
+      printf 'ok: %s -> %s\n' "$name" "$actual"
+    fi
+  elif [ -e "$path" ]; then
+    printf 'drift: %s exists but is not a symlink\n' "$path" >&2
+    status=1
+  else
+    printf 'missing: %s\n' "$path" >&2
+    status=1
+  fi
+}
+
 printf 'chezmoi source: %s\n' "$(chezmoi source-path)"
-chezmoi doctor
+if command -v timeout >/dev/null 2>&1; then
+  timeout 20s chezmoi doctor || status=1
+else
+  chezmoi doctor || status=1
+fi
+
+printf '\nrequired tools:\n'
+need git
+need curl
+need zsh
+need nvim
+need tmux
+
+printf '\nrecommended tools:\n'
+want starship
+want mise
+want kubectl
+want k9s
+want kubectx
+want rg
+want_any fd fd fdfind
+want jq
+
+printf '\ncredential links:\n'
+show_link kubeconfig "$HOME/.kube/config" "$HOME/.local/share/kube/config"
+show_link aws "$HOME/.aws" "$HOME/.local/share/cloud/aws"
+show_link azure "$HOME/.azure" "$HOME/.local/share/cloud/azure"
+
 printf '\nmanaged files:\n'
 chezmoi managed | sed -n '1,120p'
+
+exit "$status"
