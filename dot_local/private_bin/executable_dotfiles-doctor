@@ -73,12 +73,19 @@ need tmux
 printf '\nrecommended tools:\n'
 want starship
 want mise
+want_any fabric fabric fabric-ai
+want gh
+want pass
+want gpg
+want w3m
+want yt-dlp
 want kubectl
 want k9s
 want kubectx
 want rg
 want_any fd fd fdfind
 want jq
+want tree
 
 printf '\ncredential links:\n'
 show_link kubeconfig "$HOME/.kube/config" "$HOME/.local/share/kube/config"

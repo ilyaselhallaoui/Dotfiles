@@ -1,10 +1,13 @@
-# Dotfiles
+# Terminal Power User Dotfiles
 
-Chezmoi-managed workstation setup for a mostly stateless machine.
+Chezmoi-managed workstation setup for a mostly stateless, command-line centered
+machine.
 
 Goal: install an OS, authenticate to GitHub, run one bootstrap command, and get
-the shell/editor/dev-tool baseline back in minutes. Secrets and machine-local
-credential material are intentionally not stored in Git.
+the shell/editor/dev-tool baseline back in minutes. The daily workflow is built
+around zsh, tmux, Neovim, SSH, fzf, Fabric, dev containers, and eventually Sway
+on native Arch Linux. Secrets and machine-local credential material are
+intentionally not stored in Git.
 
 ## Bootstrap
 
@@ -66,15 +69,18 @@ dotfiles-doctor
 
 - Shell: zsh/bash startup files, aliases, completions, Oh My Zsh plugins.
 - Editor: Neovim/LazyVim configuration.
-- Terminal tools: tmux, starship, mise-managed language runtimes.
+- Terminal tools: tmux, fzf, w3m, pass, gh, starship, mise-managed runtimes.
+- AI CLI workflow: Fabric install path, helper functions, and custom patterns.
 - Kubernetes tools: kubectl, kubectx/kubens, k9s config.
+- Native Linux desktop draft: Sway, Waybar, Wofi, Foot/Alacritty config.
 - Personal scripts in `~/.local/bin`.
 - Credential locations as symlinks, not the credential contents.
 
 ## Package Strategy
 
 - Arch uses `pacman` for the full baseline, including Kubernetes tools when
-  available from the configured repositories.
+  available from the configured repositories. Arch also installs the Sway desktop
+  stack.
 - Ubuntu/Debian uses `apt` for the base system tools. Tools that are not
   consistently available in apt, such as `starship` and `mise`, are installed
   user-locally into `~/.local/bin`.
@@ -84,6 +90,46 @@ dotfiles-doctor
   - `node@lts`
   - `python@latest`
   - `go@latest`
+
+## Workflow Layers
+
+1. Shell basics: bash/zsh, man pages, history, find, grep/rg, pipes, redirects.
+2. Navigation and search: fzf, fd/fdfind, rg, tree.
+3. Terminal workbench: tmux with mostly default keybindings.
+4. Editor: Neovim/LazyVim.
+5. Remote systems: SSH, port forwarding, rsync.
+6. Passwords and keys: pass/GPG. Secrets are not committed.
+7. AI on the command line: Fabric, custom patterns, YouTube transcripts.
+8. Isolated development: dev containers and project-local toolchains.
+9. Native Linux desktop: Arch + Sway, once WSL foundations are solid.
+
+## Fabric Helpers
+
+After `fabric --setup`, these shell helpers become useful:
+
+```sh
+ask "question"
+fsum < file.md
+wisdom < transcript.txt
+claims < article.txt
+explain < script.sh
+tags < note.md
+yt "https://youtube.com/watch?v=..."
+ytw "https://youtube.com/watch?v=..."
+```
+
+Custom patterns live in:
+
+```text
+~/.config/fabric/custom-patterns
+```
+
+Current custom patterns:
+
+- `routine_review`
+- `devops_study_notes`
+- `careerlaunch_content`
+- `telos_reflect`
 
 ## Credentials
 

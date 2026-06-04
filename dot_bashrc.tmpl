@@ -4,6 +4,9 @@ export PATH="$HOME/.local/bin:$PATH"
 export EDITOR="${EDITOR:-nvim}"
 export VISUAL="${VISUAL:-$EDITOR}"
 export PAGER="${PAGER:-less}"
+export GOPATH="${GOPATH:-$HOME/go}"
+export PATH="$GOPATH/bin:$PATH"
+export FABRIC_CUSTOM_PATTERNS_DIR="${FABRIC_CUSTOM_PATTERNS_DIR:-$HOME/.config/fabric/custom-patterns}"
 
 if [ -d /home/linuxbrew/.linuxbrew ]; then
   eval "$(/home/linuxbrew/.linuxbrew/bin/brew shellenv)"
@@ -31,12 +34,15 @@ alias l='ls -CF'
 alias n='nvim'
 alias tm='tmux'
 alias python='python3'
+alias v='$EDITOR'
 
 alias ga='git add'
 alias gp='git push'
 alias gs='git status --short --branch'
 alias gst='git status'
 alias gm='git commit -m'
+alias gd='git diff'
+alias gl='git log --oneline --decorate --graph --all -20'
 
 alias k='kubectl'
 alias kgp='kubectl get pods'
@@ -49,6 +55,72 @@ alias kn='kubens'
 if command -v kubectl >/dev/null 2>&1; then
   source <(kubectl completion bash)
   complete -o default -F __start_kubectl k 2>/dev/null || true
+fi
+
+if command -v fzf >/dev/null 2>&1; then
+  [ -f /usr/share/doc/fzf/examples/key-bindings.bash ] && source /usr/share/doc/fzf/examples/key-bindings.bash
+  [ -f /usr/share/doc/fzf/examples/completion.bash ] && source /usr/share/doc/fzf/examples/completion.bash
+fi
+
+if command -v fabric >/dev/null 2>&1 || command -v fabric-ai >/dev/null 2>&1; then
+  _fabric() {
+    if command -v fabric >/dev/null 2>&1; then
+      command fabric "$@"
+    else
+      command fabric-ai "$@"
+    fi
+  }
+
+  ask() {
+    if [ "$#" -eq 0 ]; then
+      echo "Usage: ask question..." >&2
+      return 1
+    fi
+    _fabric --stream "$*"
+  }
+
+  fsum() {
+    _fabric --stream --pattern summarize "$@"
+  }
+
+  wisdom() {
+    _fabric --stream --pattern extract_wisdom "$@"
+  }
+
+  claims() {
+    _fabric --stream --pattern analyze_claims "$@"
+  }
+
+  explain() {
+    _fabric --stream --pattern explain_code "$@"
+  }
+
+  tags() {
+    _fabric --pattern create_tags "$@"
+  }
+
+  yt() {
+    if [ "$#" -eq 0 ] || [ "$#" -gt 2 ]; then
+      echo "Usage: yt [-t|--timestamps] youtube-url" >&2
+      return 1
+    fi
+
+    transcript_flag="--transcript"
+    if [ "$1" = "-t" ] || [ "$1" = "--timestamps" ]; then
+      transcript_flag="--transcript-with-timestamps"
+      shift
+    fi
+
+    _fabric -y "$1" "$transcript_flag"
+  }
+
+  ytw() {
+    if [ "$#" -eq 0 ]; then
+      echo "Usage: ytw youtube-url" >&2
+      return 1
+    fi
+    _fabric -y "$1" --stream --pattern extract_wisdom
+  }
 fi
 
 HISTSIZE=10000
