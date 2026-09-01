@@ -1,25 +1,20 @@
 # Terminal Power User Dotfiles
 
-Chezmoi-managed workstation setup for a mostly stateless, command-line centered
-machine.
+Chezmoi-managed WSL setup for a mostly stateless, command-line centered
+Windows workstation.
 
 Goal: install an OS, authenticate to GitHub, run one bootstrap command, and get
 the shell/editor/dev-tool baseline back in minutes. The daily workflow is built
-around zsh, tmux, Neovim, SSH, fzf, Fabric, dev containers, and eventually Sway
-on native Arch Linux. Secrets and machine-local credential material are
+around zsh, tmux, Neovim, SSH, fzf, Fabric, dev containers, and the Windows
+host where it makes sense. Native Arch/Sway is optional lab work, not the main
+path. Secrets and machine-local credential material are
 intentionally not stored in Git.
 
 ## Bootstrap
 
 ### 1. Minimal OS prerequisites
 
-Arch:
-
-```sh
-sudo pacman -Syu --needed git curl openssh sudo
-```
-
-Ubuntu/Debian:
+WSL Ubuntu/Debian:
 
 ```sh
 sudo apt-get update
@@ -69,23 +64,25 @@ dotfiles-doctor
 
 - Shell: zsh/bash startup files, aliases, completions, Oh My Zsh plugins.
 - Editor: Neovim/LazyVim configuration.
-- Terminal tools: tmux, fzf, w3m, pass, gh, starship, mise-managed runtimes.
+- Terminal tools: tmux, fzf, fd/fdfind, rg, bat, w3m, pass, gh, starship,
+  mise-managed runtimes.
+- Zettelkasten CLI workflow: `vcd`, `vf`, `fd`, `rg`, `fzf`, `bat`, and Neovim
+  for fast Markdown navigation and editing.
 - AI CLI workflow: Fabric install path, helper functions, and custom patterns.
 - Kubernetes tools: kubectl, kubectx/kubens, k9s config.
-- Native Linux desktop draft: Sway, Waybar, Wofi, Foot/Alacritty config.
+- Optional archived Linux desktop draft: Sway, Waybar, Wofi, Foot/Alacritty
+  config. This is not part of the WSL daily-driver path.
 - Personal scripts in `~/.local/bin`.
 - Credential locations as symlinks, not the credential contents.
 
 ## Package Strategy
 
-- Arch uses `pacman` for the full baseline, including Kubernetes tools when
-  available from the configured repositories. Arch also installs the Sway desktop
-  stack.
-- Ubuntu/Debian uses `apt` for the base system tools. Tools that are not
+- WSL Ubuntu/Debian uses `apt` for the base system tools. Tools that are not
   consistently available in apt, such as `starship` and `mise`, are installed
   user-locally into `~/.local/bin`.
-- macOS uses Homebrew if it already exists. Install Homebrew before bootstrap if
-  this machine should be managed like a daily driver.
+- Homebrew on Linux is not managed by default. This avoids WSL bootstrap runs
+  unexpectedly installing or updating Brew packages.
+- macOS uses Homebrew if it already exists.
 - Language runtimes are managed with `mise`:
   - `node@lts`
   - `python@latest`
@@ -101,7 +98,8 @@ dotfiles-doctor
 6. Passwords and keys: pass/GPG. Secrets are not committed.
 7. AI on the command line: Fabric, custom patterns, YouTube transcripts.
 8. Isolated development: dev containers and project-local toolchains.
-9. Native Linux desktop: Arch + Sway, once WSL foundations are solid.
+9. Optional native Linux desktop lab: Arch + Sway only if WSL no longer fits a
+   concrete need.
 
 ## Fabric Helpers
 

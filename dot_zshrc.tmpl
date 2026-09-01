@@ -68,6 +68,21 @@ alias kns='kubens'
 alias kc='kubectx'
 alias kn='kubens'
 
+{{- if and (eq .chezmoi.os "linux") (contains "microsoft" (.chezmoi.kernel.osrelease | lower)) }}
+vcd() {
+  cd "/mnt/c/Users/ilyas/Documents/Ilyas's Vault/" || return
+}
+
+vf() {
+  local file
+
+  vcd || return
+  file="$(fd -e md | fzf)" || return
+  [ -n "$file" ] || return
+  nvim "$file"
+}
+{{- end }}
+
 if command -v kubectl >/dev/null 2>&1; then
   source <(kubectl completion zsh)
   compdef _kubectl kubectl 2>/dev/null || true

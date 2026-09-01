@@ -57,10 +57,20 @@ show_link() {
 }
 
 printf 'chezmoi source: %s\n' "$(chezmoi source-path)"
+chezmoi_exe="$(command -v chezmoi)"
+doctor_path=""
+old_ifs="$IFS"
+IFS=:
+for dir in $PATH; do
+  [ "$dir" = "$HOME/.local/bin" ] && continue
+  doctor_path="${doctor_path:+$doctor_path:}$dir"
+done
+IFS="$old_ifs"
+
 if command -v timeout >/dev/null 2>&1; then
-  timeout 20s chezmoi doctor || status=1
+  PATH="$doctor_path" timeout 20s "$chezmoi_exe" doctor --no-network || status=1
 else
-  chezmoi doctor || status=1
+  PATH="$doctor_path" "$chezmoi_exe" doctor --no-network || status=1
 fi
 
 printf '\nrequired tools:\n'

@@ -2,6 +2,7 @@ packages:
   linux:
     apt:
       - bash-completion
+      - bat
       - build-essential
       - ca-certificates
       - curl
@@ -31,55 +32,7 @@ packages:
       - xclip
       - yt-dlp
       - zsh
-    pacman:
-      - age
-      - alacritty
-      - aerc
-      - base-devel
-      - bash-completion
-      - ca-certificates
-      - curl
-      - fd
-      - foot
-      - fzf
-      - gh
-      - git
-      - gnupg
-      - go-yq
-      - grim
-      - jq
-      - k9s
-      - kubectl
-      - kubectx
-      - less
-      - man-db
-      - man-pages
-      - mise
-      - neovim
-      - openssh
-      - pass
-      - pinentry
-      - polkit-kde-agent
-      - python
-      - ripgrep
-      - rsync
-      - slurp
-      - starship
-      - sway
-      - swayidle
-      - swaylock
-      - tmux
-      - tree
-      - unzip
-      - vim
-      - w3m
-      - waybar
-      - wl-clipboard
-      - wofi
-      - xdg-desktop-portal-wlr
-      - yt-dlp
-      - zsh
-  brew:
+  macos:
     taps: []
     brews:
       - aerc
