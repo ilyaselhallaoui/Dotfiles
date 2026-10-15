@@ -1,0 +1,15 @@
+[user]
+	name = ilyas
+	email = ilyas.elhallaoui@gmail.com
+[core]
+	editor = nvim
+	preloadindex = true
+	fscache = true
+[credential "https://github.com"]
+	helper = 
+	helper = !/home/linuxbrew/.linuxbrew/bin/gh auth git-credential
+[credential "https://gist.github.com"]
+	helper = 
+	helper = !/home/linuxbrew/.linuxbrew/bin/gh auth git-credential
+[init]
+	defaultBranch = main
