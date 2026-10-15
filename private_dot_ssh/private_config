@@ -1,0 +1,9 @@
+# Managed by chezmoi.
+
+Host homelab
+    HostName homelabilyas-1
+    User ilyas
+
+Host *
+    AddKeysToAgent yes
+    IdentityFile ~/.ssh/id_ed25519

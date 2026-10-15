@@ -1,0 +1,15 @@
+#!/bin/sh
+# One-time machine setup: dirs, zsh as login shell, oh-my-zsh.
+set -eu
+
+mkdir -p ~/.local/bin ~/.local/share/cloud/aws ~/.local/share/cloud/azure ~/.local/share/kube
+
+zsh_path="$(command -v zsh || true)"
+if [ -n "$zsh_path" ] && [ "${SHELL:-}" != "$zsh_path" ]; then
+  chsh -s "$zsh_path" || true
+fi
+
+if [ ! -d ~/.oh-my-zsh ]; then
+  RUNZSH=no CHSH=no KEEP_ZSHRC=yes sh -c \
+    "$(curl -fsSL https://raw.githubusercontent.com/ohmyzsh/ohmyzsh/master/tools/install.sh)" -- --unattended
+fi

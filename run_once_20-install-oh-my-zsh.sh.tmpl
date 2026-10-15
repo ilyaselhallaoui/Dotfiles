@@ -1,9 +1,0 @@
-{{ if or (eq .chezmoi.os "linux") (eq .chezmoi.os "darwin") -}}
-#!/bin/sh
-set -eu
-
-if [ ! -d "$HOME/.oh-my-zsh" ] && command -v zsh >/dev/null 2>&1 && command -v git >/dev/null 2>&1 && command -v curl >/dev/null 2>&1; then
-  RUNZSH=no CHSH=no KEEP_ZSHRC=yes sh -c \
-    "$(curl -fsSL https://raw.githubusercontent.com/ohmyzsh/ohmyzsh/master/tools/install.sh)" -- --unattended
-fi
-{{- end }}

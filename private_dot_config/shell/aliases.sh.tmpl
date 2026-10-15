@@ -1,0 +1,46 @@
+# Shared by ~/.zshrc and ~/.bashrc. Managed by chezmoi.
+
+# ssh
+alias homelab='ssh homelab'
+
+# general
+alias ..='cd ..'
+alias ll='ls -alF'
+alias la='ls -A'
+alias n='nvim'
+alias v='$EDITOR'
+alias tm='tmux'
+alias python='python3'
+
+# git
+alias ga='git add'
+alias gp='git push'
+alias gs='git status --short --branch'
+alias gm='git commit -m'
+alias gd='git diff'
+alias gl='git log --oneline --decorate --graph --all -20'
+
+# kubernetes
+alias k='kubectl'
+alias kgp='kubectl get pods'
+alias kgd='kubectl get deployments'
+alias kc='kubectx'
+alias kn='kubens'
+
+# fabric (installed as fabric-ai by Homebrew)
+if ! command -v fabric >/dev/null 2>&1 && command -v fabric-ai >/dev/null 2>&1; then
+  fabric() { command fabric-ai "$@"; }
+fi
+ask()     { fabric --stream "$*"; }
+fsum()    { fabric --stream --pattern summarize "$@"; }
+wisdom()  { fabric --stream --pattern extract_wisdom "$@"; }
+claims()  { fabric --stream --pattern analyze_claims "$@"; }
+explain() { fabric --stream --pattern explain_code "$@"; }
+yt()      { fabric -y "$1" --transcript; }
+ytw()     { fabric -y "$1" --stream --pattern extract_wisdom; }
+{{- if contains "microsoft" (.chezmoi.kernel.osrelease | lower) }}
+
+# Obsidian vault (WSL)
+vcd() { cd "/mnt/c/Users/ilyas/Documents/Ilyas's Vault/" || return; }
+vf()  { local f; vcd && f="$(fd -e md | fzf)" && nvim "$f"; }
+{{- end }}

@@ -1,17 +1,11 @@
-.git/
-.github/
-.devcontainer/
 README.md
 setup.sh
 .pre-commit-config.yaml
+{{- if contains "microsoft" (.chezmoi.kernel.osrelease | lower) }}
 
-{{- if and (eq .chezmoi.os "linux") (contains "microsoft" (.chezmoi.kernel.osrelease | lower)) }}
-private_dot_config/sway/
-private_dot_config/waybar/
-private_dot_config/foot/
-private_dot_config/wofi/
-.config/sway/
-.config/waybar/
-.config/foot/
-.config/wofi/
+# Arch/sway desktop configs — not used on WSL
+.config/sway
+.config/waybar
+.config/foot
+.config/wofi
 {{- end }}

@@ -1,0 +1,15 @@
+# Managed by chezmoi — edit with: chezmoi edit ~/.bashrc
+# zsh is the main shell; this keeps bash usable.
+
+case $- in *i*) ;; *) return ;; esac
+
+source ~/.config/shell/env.sh
+source ~/.config/shell/aliases.sh
+
+HISTCONTROL=ignoreboth HISTSIZE=10000 HISTFILESIZE=20000
+shopt -s histappend checkwinsize
+
+command -v mise     >/dev/null && eval "$(mise activate bash)"
+command -v kubectl  >/dev/null && source <(kubectl completion bash) && complete -o default -F __start_kubectl k
+[ -f /usr/share/doc/fzf/examples/key-bindings.bash ] && source /usr/share/doc/fzf/examples/key-bindings.bash
+command -v starship >/dev/null && eval "$(starship init bash)"

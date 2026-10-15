@@ -11,7 +11,7 @@ repos:
     rev: v0.11.0
     hooks:
       - id: shellcheck
-        files: ^(run_.*|setup\.sh|dot_local/private_bin/executable_.*|\.devcontainer/post-create\.sh)$
+        files: ^(run_.*|setup\.sh|dot_local/private_bin/executable_.*)$
   - repo: local
     hooks:
       - id: dotfiles-secret-check
